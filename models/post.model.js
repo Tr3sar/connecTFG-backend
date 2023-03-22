@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 import normalize from 'normalize-mongoose'
 
 const postSchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    required: true
+  },
   title: {
     type: String,
     required: true
@@ -16,6 +20,6 @@ const postSchema = new mongoose.Schema({
 })
 
 postSchema.plugin(normalize)
-const PostModel = model('Post', postSchema)
+const postModel = model('post', postSchema)
 
-export default PostModel
+export default postModel

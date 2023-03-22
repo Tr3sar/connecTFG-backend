@@ -1,8 +1,10 @@
 const Post = require('./post.model');
-const postService = {};
 
-postService.getAllPosts = async () => {
+
+export const getAllPosts = async () => {
   return await Post.find({});
 };
+export const createPost= async () = {
 
-module.exports = postService;
+}
+

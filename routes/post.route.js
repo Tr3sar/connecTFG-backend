@@ -1,12 +1,9 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const postController = require('../controllers/post.controller');
+import { Router } from 'express'
+import {createPost, getAllPosts} from '../controllers/post.controller.js'
 
-mongoose.connect('mongodb://localhost/mydatabase', {useNewUrlParser: true, useUnifiedTopology: true});
+const postRouter = Router()
+postRouter.post('/', createPost)
+postRouter.get('/', getAllPosts);
 
-const app = express();
-const port = 3000;
+export default postRouter
 
-app.get('/posts', postController.getAllPosts);
-
-app.listen(port, () => console.log(`Server listening on port ${port}!`));
