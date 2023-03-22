@@ -11,9 +11,9 @@ const notificationSchema = new Schema({
         type: String,
         required: true
     },
-    user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
+    user_id: {
+        type: Number,
+        required: true
     }
 }, {
     versionKey: false,
