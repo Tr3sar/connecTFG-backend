@@ -18,7 +18,9 @@ app.use(cors({
 
 app.use(express.json())
 app.use("/notification", notificationRouter)
-
+app.use("/group", groupRouter)
+app.use("/login", loginRouter)
+app.use("/post", postRouter)
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port ${process.env.PORT}`);
 });

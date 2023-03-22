@@ -1,7 +1,7 @@
-const User = require('./models/user');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const userService = {};
+import User from '../models/login.schema.js';
+import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt'
+
 
 
 export const postLogin = async (username, password) => {
@@ -27,4 +27,4 @@ export const postLogin = async (username, password) => {
     token
   };
 };
-module.exports = authService;
+

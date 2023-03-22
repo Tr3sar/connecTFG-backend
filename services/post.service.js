@@ -1,10 +1,22 @@
-const Post = require('./post.model');
-
+import PostModel from '../models/post.schema.js';
 
 export const getAllPosts = async () => {
-  return await Post.find({});
-};
-export const createPost= async () = {
-
+  try{
+    return await PostModel.find().sort('createdAt');
+} catch (e) {
+    throw Error('Error fetching Posts')
 }
+};
+export const createPost = async function(title, content){
+  try{
+    const post = new PostModel({
+      title: title,
+      content: content,
+    })
+
+    return await post.save();
+
+} catch (e) {
+    throw Error('Error creating group');
+}}
 

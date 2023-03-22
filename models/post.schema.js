@@ -1,10 +1,9 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose'
 import normalize from 'normalize-mongoose'
 
-const postSchema = new mongoose.Schema({
+const postSchema = new Schema({
   id: {
-    type: Number,
-    required: true
+    type: Schema.Types.ObjectId,
   },
   title: {
     type: String,
@@ -20,6 +19,5 @@ const postSchema = new mongoose.Schema({
 })
 
 postSchema.plugin(normalize)
-const postModel = model('post', postSchema)
-
-export default postModel
+const PostModel = model('Post', postSchema)
+export default PostModel
