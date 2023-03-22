@@ -1,7 +1,8 @@
 import * as GroupService from '../services/group.service.js'
 
 export const createGroup = async (req, res) => {
-    const {name, members, description} = req.body
+    const {name, members} = req.body
+    let description = req.body.description
 
     if (description == null) {
         description = '';
