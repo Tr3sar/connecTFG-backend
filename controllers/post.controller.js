@@ -1,5 +1,6 @@
 import * as PostService from '../services/post.service.js'
 
+
 export const getAllPosts = async (req, res) => {
   try {
     const posts = await PostService.getAllPosts();
@@ -22,5 +23,27 @@ export const createPost = async (req, res) => {
         msg: err.toString()
     });
 }
+}
+
+export const getPostsPageable = async (req, res) => {
+  const page = req.body.pageable.pageNumber || 0;
+  const limit = req.body.pageable.pageSize || 5;
+  const sort = req.body.pageable.sort || null;
+
+  try {
+      const response = await PostService.getPostsPageable(page, limit, sort);
+      res.status(200).json({
+          content: response.docs,
+          pageable: {
+              pageNumber: response.page - 1,
+              pageSize: response.limit
+          },
+          totalElements: response.totalDocs
+      });
+  } catch (err) {
+      res.status(400).json({
+          msg: err.toString()
+      });
+  }
 }
 

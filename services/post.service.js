@@ -20,3 +20,19 @@ export const createPost = async function(title, content){
     throw Error('Error creating group');
 }}
 
+export const getPostsPageable = async (page, limit, sort) => {
+  const sortObj = {
+      [sort?.property || 'name']: sort?.direction === 'DESC' ? 'DESC' : 'ASC'
+  };
+  try {
+     const options = {
+          page: parseInt(page) + 1,
+          limit,
+          sort: sortObj
+      };
+
+      return await PostModel.paginate({}, options);
+  } catch (e) {
+      throw Error('Error fetching posts page');
+  }    
+}
