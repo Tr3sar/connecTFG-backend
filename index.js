@@ -8,6 +8,8 @@ import { Server } from 'socket.io';
 
 import notificationRouter from './routes/notification.routes.js'
 import groupRouter from './routes/group.routes.js'
+import loginRouter from './routes/login.routes.js';
+import postRouter from './routes/post.route.js';
 import userRouter from './routes/user.routes.js'
 
 config();
@@ -26,6 +28,8 @@ app.use(cors({
 app.use(express.json())
 app.use("/notification", notificationRouter)
 app.use("/group", groupRouter)
+app.use("/login", loginRouter)
+app.use("/feed", postRouter)
 app.use("/user", userRouter)
 
 app.listen(process.env.PORT, () => {

@@ -1,12 +1,16 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const postController = require('../controllers/post.controller');
+import { Router } from 'express';
+import {createPost, getAllPosts, getPostsPageable} from '../controllers/post.controller.js';
+import { check } from 'express-validator';
+import validateFields from '../middleware/validateFields.js'
 
-mongoose.connect('mongodb://localhost/mydatabase', {useNewUrlParser: true, useUnifiedTopology: true});
+const postRouter = Router()
+postRouter.post('/create', createPost)
+postRouter.post('/', [
+    check('pageable').not().isEmpty(),
+    check('pageable.pageSize').not().isEmpty(),
+    check('pageable.pageNumber').not().isEmpty(),
+    validateFields
+], getPostsPageable)
 
-const app = express();
-const port = 3000;
+export default postRouter
 
-app.get('/posts', postController.getAllPosts);
-
-app.listen(port, () => console.log(`Server listening on port ${port}!`));

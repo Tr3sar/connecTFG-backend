@@ -1,18 +1,30 @@
-const bcrypt = require('bcryptjs');
-const User = require('./models/user');
+import User from '../models/login.schema.js';
+import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcrypt'
 
-async function login(username, password) {
+
+
+export const postLogin = async (username, password) => {
   const user = await User.findOne({ username });
+
   if (!user) {
-    return null; // User not found
+    throw new Error('Invalid credentials');
   }
 
-  const passwordMatch = await bcrypt.compare(password, user.password);
-  if (!passwordMatch) {
-    return null; // Password doesn't match
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    throw new Error('Invalid credentials');
   }
 
-  return user;
-}
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-module.exports = { login };
+  return {
+    user: {
+      id: user._id,
+      username: user.username
+    },
+    token
+  };
+};
+

@@ -1,17 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const userService = require('./user.service');
+import * as LoginService from '../services/login.service.js'
 
-router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-  const user = await userService.login(username, password);
-  if (user) {
-    // Successful login
-    res.status(200).json({ user });
-  } else {
-    // Failed login
-    res.status(401).json({ message: 'Invalid credentials' });
+export const postLogin = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+    const result = await LoginService.postLogin(username, password);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(400).json({msg:error.toString()})
   }
-});
+};
 
-module.exports = router;
+
+
+
