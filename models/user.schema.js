@@ -1,18 +1,61 @@
+import mongoose from 'mongoose'
+const { Schema, model } = mongoose
 
-'use strict'
+import normalize from 'normalize-mongoose'
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
-var UserSchema = Schema({
-	name: String,
-	surname: String,
-	nick: String,
-	email: String,
-	password: String,
-	role: String,
-	image: String,
-	status: String
-});
-
-module.exports = mongoose.model('User', UserSchema);
+const userSchema = new Schema({
+    id: {
+        type: Schema.Types.ObjectId
+    },
+    name: {
+        type: String,
+        require: true
+    },
+    surname: {
+        type: String,
+        require: true
+    },
+    email: {
+        type: String,
+        require: true
+    },
+    img_url: {
+        type: String,
+        require: true
+    },
+    tfg_url: {
+        type: String,
+        require: true
+    },
+    degree: {
+        type: String,
+        require: true
+    },
+    description: {
+        type: String,
+        require: true
+    },
+    groups: [{
+        type: Schema.ObjectId,
+        ref: 'Group',
+        require: true
+    }],
+    notifications: [{
+        type: Schema.ObjectId,
+        ref: 'Notification',
+        require: true
+    }],
+    posts: [{
+        type: Schema.ObjectId,
+        ref: 'Post',
+        require: true
+    }],
+    rol: {
+        type: String,
+        require: true
+    },
+    status: {
+        type: String,
+        require: true
+    }
+})

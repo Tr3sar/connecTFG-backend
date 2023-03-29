@@ -1,8 +1,7 @@
-'use strict'
-
-var bcrypt = require('bcrypt-nodejs');
-var User = require('../models/user');
-var jwt = require('../services/jwt');
+import {bcrypt} from 'bcrypt-nodejs';
+import {User} from '../models/user';
+import {jwt} from '../services/jwt';
+import * as UserService from '../services/user.service.js'
 
 
 /*** Método para registrar Usuarios ***/
@@ -75,6 +74,7 @@ function loginUser(req, res){
 					return res.status(200).send({user});
 				}
 
+
 			} else {
 				return res.status(404).send({message: 'Email o contraseña incorrectos!!'});
 			}
@@ -87,4 +87,16 @@ function loginUser(req, res){
 module.exports = {
 	saveUser,
 	loginUser, 
+}
+export const getUsers = async (req, res) => {
+    try{
+        const users = await UserService.getUsers();
+        res.status(200).json(
+            users
+        );
+    } catch (err) {
+        res.status(400).json({
+            msg: err.toString()
+        });
+    }
 }

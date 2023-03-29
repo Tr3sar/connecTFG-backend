@@ -1,12 +1,12 @@
-'use strict'
+import { Router } from 'express'
+import { getUsers, loginUser } from '../controllers/user.controller.js'
 
-var express = require('express');
-var UserController = require('../controllers/user');
-var api = express.Router();
-var md_auth = require('../middlewares/authenticated');
+const userRouter = Router()
+userRouter.get('/', getUsers)
+//userRouter.post('/register', UserController.saveUser);
+userRouter.post('/login', loginUser);
 
-api.get('/home', UserController.home);
-api.post('/register', UserController.saveUser);
-api.post('/login', UserController.loginUser);
 
-module.exports = api;
+
+
+
