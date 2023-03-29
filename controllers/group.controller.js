@@ -32,3 +32,30 @@ export const getGroups = async (req, res) => {
         });
     }
 }
+
+export const getGroupsExpanded = async (req, res) => {
+    try{
+        const groups = await GroupService.getGroupsExpanded();
+        res.status(200).json(
+            groups
+        );
+    } catch (err) {
+        res.status(400).json({
+            msg: err.toString()
+        })
+    }
+}
+
+export const createMessage = async (req, res) => {
+    const {group_id, emitter, message} = req.body;
+    try{
+        const group = GroupService.createMessage(group_id, emitter, message);
+        res.status(200).json({
+            group
+        });
+    } catch (err) {
+        res.status(400).json({
+            msg: err.toString()
+        });
+    }
+}

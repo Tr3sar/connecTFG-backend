@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose'
+import mongoose from 'mongoose'
 const { Schema, model } = mongoose
 
 import normalize from 'normalize-mongoose'
@@ -11,18 +11,20 @@ const groupSchema = new Schema({
         type: String,
         require: true
     },
-    member_id: {
-        type: Array,
+    members: [{
+        type: Schema.ObjectId,
+        ref: 'User',
         require: true
-    },
-    message: {
-        type: Array,
+    }],
+    messages: [{
+        type: Schema.ObjectId,
+        ref: 'Message',
         require: true
-    },
-    file: {
-        type: Array,
+    }],
+    file: [{
+        type: String,
         require: true
-    },
+    }],
     description: {
         type: String,
         require: false
