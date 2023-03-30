@@ -33,6 +33,21 @@ export const getGroups = async (req, res) => {
     }
 }
 
+export const getMessagesFromGroup = async (req, res) => {
+    const {id} = req.params
+    
+    try{
+        const messages = await GroupService.getMessagesFromGroup(id)
+        res.status(200).json(
+            messages
+        )
+    } catch (err) {
+        res.status(400).json({
+            msg: err.toString()
+        })
+    }
+}
+
 export const getGroupsExpanded = async (req, res) => {
     try{
         const groups = await GroupService.getGroupsExpanded();

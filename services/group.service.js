@@ -26,6 +26,23 @@ export const getGroups = async function () {
     }
 }
 
+export const getMessagesFromGroup = async function(id) {
+    try{
+        console.log('ID', id)
+        const group = await GroupModel.findById(id);
+        if (!group) {
+            throw Error('Group not found')
+        }
+
+        const groupPopulated = await group.populate('messages')
+
+        return groupPopulated.messages
+    } catch (e) {
+        throw Error('Error fetching messages')
+    }
+
+}
+
 export const getGroupsExpanded = async function () {
     try{
         const groupsFind = GroupModel.find({})
