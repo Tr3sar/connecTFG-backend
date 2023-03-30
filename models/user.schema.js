@@ -59,7 +59,3 @@ const userSchema = new Schema({
         require: true
     }
 })
-
-userSchema.plugin(normalize);
-const UserModel = model('User', userSchema);
-export default UserModel;
