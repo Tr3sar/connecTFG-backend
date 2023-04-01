@@ -5,11 +5,18 @@ export const createGroup = async function(name, members, description) {
     try{
         const group = new GroupModel({
             name: name,
-            member_id: members,
+            members: [members],
             message: [],
             file: [],
             description: description
         })
+
+        members.forEach(member => {
+            if (group.members === undefined) {
+                group.members = []
+            }
+            group.members.push(member)
+        });
 
         return await group.save();
 
@@ -28,7 +35,6 @@ export const getGroups = async function () {
 
 export const getMessagesFromGroup = async function(id) {
     try{
-        console.log('ID', id)
         const group = await GroupModel.findById(id);
         if (!group) {
             throw Error('Group not found')

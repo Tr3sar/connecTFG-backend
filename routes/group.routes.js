@@ -1,6 +1,5 @@
 import { Router } from 'express'
-import { createGroup, getGroups, getGroupsExpanded, getMessagesFromGroup } from '../controllers/group.controller.js'
-import { createMessage } from '../controllers/group.controller.js'
+import { createGroup, getGroups, getGroupsExpanded, getMessagesFromGroup, createMessage } from '../controllers/group.controller.js'
 
 const groupRouter = Router()
 groupRouter.put('/', createGroup)

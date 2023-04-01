@@ -1,11 +1,12 @@
 import * as GroupService from '../services/group.service.js'
 
 export const createGroup = async (req, res) => {
-    const {name, members} = req.body
-    let description = req.body.description
+    const name = req.body.group.name
+    const members = req.body.group.members
+    let description = req.body.group.description
 
-    if (description == null) {
-        description = '';
+    if (description == undefined) {
+        description = ''
     }
 
     try{

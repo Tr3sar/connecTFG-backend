@@ -21,7 +21,7 @@ const groupSchema = new Schema({
         ref: 'Message',
         require: true
     }],
-    file: [{
+    files: [{
         type: String,
         require: true
     }],

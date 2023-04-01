@@ -15,6 +15,10 @@ const userSchema = new Schema({
         type: String,
         require: true
     },
+    password: {
+        type: String,
+        require: true
+    },
     email: {
         type: String,
         require: true
@@ -59,3 +63,6 @@ const userSchema = new Schema({
         require: true
     }
 })
+userSchema.plugin(normalize);
+const UserModel = model('User', userSchema);
+export default UserModel;

@@ -10,6 +10,28 @@ export const postLogin = async (req, res, next) => {
   }
 };
 
+export const login = async (req, res) => {
+  try{
+    const { email, password } = req.body
+    if (email == null || password == null) {
+      throw new Error("email or password can't be empty")
+    }
+
+    const infoUserLogin = await LoginService.login(email, password)
+
+    res.status(200).json({
+      name: infoUserLogin.name,
+      email: infoUserLogin.email,
+      token: infoUserLogin.token
+    })
+
+  } catch (err) {
+    res.status(400).json({
+      msg: err.toString()
+    })
+  }
+}
+
 
 
 
