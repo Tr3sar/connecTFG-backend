@@ -105,15 +105,29 @@ export const createMessage = async (req, res) => {
 
 export const updateGroup = async (req, res) => {
     const { id } = req.params;
-    const { name, description, members } = req.body;
+    const { name, members } = req.body.group;
+
+    let description = req.body.group.description
+
+    if (!description) { description = '' }
+
+    const validMembers = await Promise.all(
+        members.map(async member => {
+          const user = await UserModel.findById(member.id);
+          if (!user) {
+            throw new Error(`User with id ${member.id} not found`);
+          }
+          return user._id; // Solo guardar el identificador de objeto del usuario
+        })
+      );   
 
     try{
-        const groupUpdated = await GroupService.updateGroup(id, name, description, members)
+        const groupUpdated = await GroupService.updateGroup(id, name, description, validMembers)
         res.status(200).json(
             groupUpdated
         )
     } catch (err) {
-        res.json(400).json({
+        res.status(400).json({
             msg: err.toString()
         })
     }
