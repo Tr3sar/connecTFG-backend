@@ -102,3 +102,19 @@ export const createMessage = async (req, res) => {
         });
     }
 }
+
+export const updateGroup = async (req, res) => {
+    const { id } = req.params;
+    const { name, description, members } = req.body;
+
+    try{
+        const groupUpdated = await GroupService.updateGroup(id, name, description, members)
+        res.status(200).json(
+            groupUpdated
+        )
+    } catch (err) {
+        res.json(400).json({
+            msg: err.toString()
+        })
+    }
+}

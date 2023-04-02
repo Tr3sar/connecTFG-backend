@@ -83,3 +83,16 @@ export const createMessage = async function (group_id, emitter, text) {
         throw new Error('Error creating message')
     }
 }
+
+export const updateGroup = async (id, name, description, members) => {
+    try{
+        const group = await GroupModel.findById(id);
+        if (!group) {
+            throw Error('There is no group with that id')
+        }
+
+        return await GroupModel.findByIdAndUpdate(id, {name, description, members});
+    } catch (e) {
+        throw new Error('Error updating group')
+    }
+}
