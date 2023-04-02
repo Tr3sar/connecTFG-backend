@@ -29,7 +29,9 @@ export const getGroups = async function () {
 
 export const getGroupsFromUser = async function (userId) {
     try{
-        return await GroupModel.find({members: userId}).sort('name')
+        return await GroupModel.find({members: userId})
+                        .sort('name')
+                        .populate('members')
     } catch (e) {
         throw Error('Error fetching groups')
     }
