@@ -5,22 +5,16 @@ export const createGroup = async function(name, members, description) {
     try{
         const group = new GroupModel({
             name: name,
-            members: [members],
+            members: members,
             message: [],
             file: [],
             description: description
         })
 
-        members.forEach(member => {
-            if (group.members === undefined) {
-                group.members = []
-            }
-            group.members.push(member)
-        });
-
-        return await group.save();
+        return await group.save()
 
     } catch (e) {
+        console.log(e)
         throw Error('Error creating group');
     }
 }
@@ -28,6 +22,16 @@ export const createGroup = async function(name, members, description) {
 export const getGroups = async function () {
     try{
         return await GroupModel.find().sort('name');
+    } catch (e) {
+        throw Error('Error fetching groups')
+    }
+}
+
+export const getGroupsFromUser = async function (userId) {
+    try{
+        return await GroupModel.find({members: userId})
+                        .sort('name')
+                        .populate('members')
     } catch (e) {
         throw Error('Error fetching groups')
     }
@@ -77,5 +81,18 @@ export const createMessage = async function (group_id, emitter, text) {
         return group.save();
     } catch (e) {
         throw new Error('Error creating message')
+    }
+}
+
+export const updateGroup = async (id, name, description, members) => {
+    try{
+        const group = await GroupModel.findById(id);
+        if (!group) {
+            throw Error('There is no group with that id')
+        }
+
+        return await GroupModel.findByIdAndUpdate(id, {name, description, members});
+    } catch (e) {
+        throw new Error('Error updating group')
     }
 }

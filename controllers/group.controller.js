@@ -1,5 +1,7 @@
 import * as GroupService from '../services/group.service.js'
 
+import UserModel from '../models/user.schema.js'
+
 export const createGroup = async (req, res) => {
     const name = req.body.group.name
     const members = req.body.group.members
@@ -9,8 +11,19 @@ export const createGroup = async (req, res) => {
         description = ''
     }
 
+    const validMembers = await Promise.all(
+        members.map(async member => {
+          const user = await UserModel.findById(member.id);
+          if (!user) {
+            throw new Error(`User with id ${member.id} not found`);
+          }
+          return user._id; // Solo guardar el identificador de objeto del usuario
+        })
+      );      
+
     try{
-        const group = await GroupService.createGroup(name, members, description);
+        const group = await GroupService.createGroup(name, validMembers, description);
+
         res.status(200).json({
             group
         });
@@ -31,6 +44,20 @@ export const getGroups = async (req, res) => {
         res.status(400).json({
             msg: err.toString()
         });
+    }
+}
+
+export const getGroupsFromUser = async (req, res) => {
+    const { userId } = req.params
+    try{
+        const groups = await GroupService.getGroupsFromUser(userId)
+        res.status(200).json(
+            groups
+        )
+    } catch (err) {
+        res.status(400).json({
+            msg: err.toString()
+        })
     }
 }
 
@@ -73,5 +100,35 @@ export const createMessage = async (req, res) => {
         res.status(400).json({
             msg: err.toString()
         });
+    }
+}
+
+export const updateGroup = async (req, res) => {
+    const { id } = req.params;
+    const { name, members } = req.body.group;
+
+    let description = req.body.group.description
+
+    if (!description) { description = '' }
+
+    const validMembers = await Promise.all(
+        members.map(async member => {
+          const user = await UserModel.findById(member.id);
+          if (!user) {
+            throw new Error(`User with id ${member.id} not found`);
+          }
+          return user._id; // Solo guardar el identificador de objeto del usuario
+        })
+      );   
+
+    try{
+        const groupUpdated = await GroupService.updateGroup(id, name, description, validMembers)
+        res.status(200).json(
+            groupUpdated
+        )
+    } catch (err) {
+        res.status(400).json({
+            msg: err.toString()
+        })
     }
 }
