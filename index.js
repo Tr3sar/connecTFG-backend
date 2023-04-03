@@ -12,6 +12,9 @@ import userRouter from './routes/user.routes.js'
 import fs from 'fs';
 import https from 'https';
 
+
+import { updateUserStatus } from './controllers/user.controller.js';
+
  
 config();
 connectDB(process.env.MONGODB_URL);
@@ -54,7 +57,8 @@ server.listen(443, () => {
 
 
 io.on('connection', (socket) => {
-    console.log('Cliente conectado')
+    console.log('Cliente conectado', socket.handshake.query.userId)
+    updateUserStatus(socket.handshake.query.userId, 'connected');
 
     socket.on('join', (group_id) => {
         console.log('Cliente unido al grupo: ', group_id);
@@ -67,11 +71,11 @@ io.on('connection', (socket) => {
 
     socket.on('newMessage', (data) => {
         console.log('Nuevo mensaje recibido: ', data);
-        // Guardaría el mensaje en la base de datos
         io.to(data.groupId).emit('message', data.message);
     });
 
-    socket.on('disconnect', () => {
-        console.log('Cliente desconectado');
+    socket.on('disconnect', async () => {
+        console.log('Cliente desconectado', socket.handshake.query.userId);
+        await updateUserStatus(socket.handshake.query.userId, 'disconnected');
     });
 })

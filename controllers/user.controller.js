@@ -38,3 +38,31 @@ export const createUser = async (req, res) => {
 		})
 	}
 }
+
+export const updateUser = async (req, res) => {
+
+	const {id} = req.params;
+	const {status} = req.body;
+
+	console.log('actualizando a status: ', status)
+
+	try{
+		const user = await UserService.updateUser(id, status);
+		res.status(200).json(
+			user
+		)
+	} catch (err) {
+		res.status(400).json({
+			msg: err.toString()
+		})
+	}
+}
+
+export const updateUserStatus = async (userId, status) => {
+	try{
+		const user = await UserService.updateUser(userId, status);
+		console.log('user', userId, status);
+	} catch (err) {
+		console.log('ERROR')
+	}
+}
