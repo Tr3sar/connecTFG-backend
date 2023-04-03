@@ -35,3 +35,16 @@ export const createUser = async function (name, surname, password, email, img_ur
         throw new Error('Error creating user')
     }
 }
+
+export const updateUser = async function (id, status) {
+    try{
+        const user = UserModel.findById(id);
+        if (!user) {
+            throw Error('There is no user with that id')
+        }
+
+        return await UserModel.findByIdAndUpdate(id, {status})
+    } catch (e) {
+        throw Error('Error updating user')
+    }
+}
