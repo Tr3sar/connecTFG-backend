@@ -2,15 +2,16 @@ import express from 'express';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import { config } from 'dotenv';
-
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-
 import notificationRouter from './routes/notification.routes.js'
 import groupRouter from './routes/group.routes.js'
 import loginRouter from './routes/login.routes.js';
 import postRouter from './routes/post.route.js';
 import userRouter from './routes/user.routes.js'
+import fs from 'fs';
+import https from 'https';
+
 
 import { updateUserStatus } from './controllers/user.controller.js';
 
@@ -18,7 +19,12 @@ config();
 connectDB(process.env.MONGODB_URL);
 const app = express();
 
-const server = createServer(app)
+const options = {
+    key: fs.readFileSync('./certs/key.pem'),
+    cert: fs.readFileSync('./certs/cert.pem')
+  };
+
+const server = https.createServer(options, (app));
 const io = new Server(server, {cors: {
     origin: "http://localhost:4200"
   }})
