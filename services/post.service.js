@@ -12,6 +12,11 @@ export const createPost = async function(title, content){
     const post = new PostModel({
       title: title,
       content: content,
+      author: author,
+      applicant: [],
+      likes: 0,
+      closed: false,
+      comment:[]
     })
 
     return await post.save();
@@ -19,6 +24,19 @@ export const createPost = async function(title, content){
 } catch (e) {
     throw Error('Error creating group');
 }}
+
+export const getPostById = async function(id) {
+  return await post.findById(id);
+};
+
+export const updatePost = async function(id, postData) {
+  const post = await post.findByIdAndUpdate(id, postData, { new: true });
+  return post;
+};
+
+export const deletePost = async function(id) {
+  await Post.findByIdAndDelete(id);
+};
 
 export const getPostsPageable = async (page, limit, sort) => {
   const sortObj = {

@@ -1,6 +1,5 @@
 import * as PostService from '../services/post.service.js'
 
-
 export const getAllPosts = async (req, res) => {
   try {
     const posts = await PostService.getAllPosts();
@@ -12,7 +11,8 @@ export const getAllPosts = async (req, res) => {
 
 export const createPost = async (req, res) => {
   console.log(req.body);
-  const {title,content} = req.body
+  const title = req.body.post.title
+  const content = req.body.post.author
   try{
     const post = await PostService.createPost(title,content);
     res.status(200).json({
@@ -24,6 +24,41 @@ export const createPost = async (req, res) => {
     });
 }
 }
+
+export const getPosts = async (req, res) => {
+  try {
+    const posts = await PostService.getPosts();
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+export const getPostById = async (req, res) => {
+  try {
+    const post = await PostService.getPostById(req.params.id);
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const updatePost = async (req, res) => {
+  try {
+    const post = await PostService.updatePost(req.params.id, req.body);
+    res.status(200).json(post);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const deletePost = async (req, res) => {
+  try {
+    await PostService.deletePost(req.params.id);
+    res.status(204).send();
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 export const getPostsPageable = async (req, res) => {
   const page = req.body.pageable.pageNumber || 0;

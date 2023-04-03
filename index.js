@@ -12,7 +12,7 @@ import userRouter from './routes/user.routes.js'
 import fs from 'fs';
 import https from 'https';
 
-
+ 
 config();
 connectDB(process.env.MONGODB_URL);
 const app = express();
@@ -22,7 +22,7 @@ const options = {
     cert: fs.readFileSync('./certs/cert.pem')
   };
 
-const server = https.createServer(options, (app));
+const server = https.createServer(options, app);
 const io = new Server(server, {cors: {
     origin: "http://localhost:4200"
   }})
@@ -38,13 +38,20 @@ app.use("/login", loginRouter)
 app.use("/feed", postRouter)
 app.use("/user", userRouter)
 
-app.listen(process.env.PORT, () => {
-    console.log(`DB server running on port ${process.env.PORT}`);
-});
+// server.on('request', (req, res) => {
+//     if (req.url.startsWith('/user')) {
+//       userRouter(req, res);
+//     }
+//   });
 
-server.listen(3000, () => {
-    console.log('Socket.io server running on port 3000')
+// app.listen(process.env.PORT, () => {
+//     console.log(`DB server running on port ${process.env.PORT}`);
+// });
+
+server.listen(443, () => {
+    console.log('Socket.io server running on port 443')
 })
+
 
 io.on('connection', (socket) => {
     console.log('Cliente conectado')
