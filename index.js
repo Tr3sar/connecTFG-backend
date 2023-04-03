@@ -41,16 +41,6 @@ app.use("/login", loginRouter)
 app.use("/feed", postRouter)
 app.use("/user", userRouter)
 
-// server.on('request', (req, res) => {
-//     if (req.url.startsWith('/user')) {
-//       userRouter(req, res);
-//     }
-//   });
-
-// app.listen(process.env.PORT, () => {
-//     console.log(`DB server running on port ${process.env.PORT}`);
-// });
-
 server.listen(443, () => {
     console.log('Socket.io server running on port 443')
 })
