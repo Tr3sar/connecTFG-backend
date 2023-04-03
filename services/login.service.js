@@ -4,6 +4,7 @@ import UserModel from '../models/user.schema.js';
 
 
 export const login = async (email, password) => {
+
   try{
     const user = await UserModel.findOne({email})
     
@@ -12,9 +13,9 @@ export const login = async (email, password) => {
       : await bcrypt.compare(password, user.password)
 
     if (!(user && passwordCorrect)) {
+      
       throw new Error('Invalid user or password')
     }
-
     const userForToken = {
       id: user._id,
       email: user.email

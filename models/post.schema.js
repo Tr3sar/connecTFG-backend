@@ -17,7 +17,8 @@ const postSchema = new Schema({
     required: true
   },
   author: {
-    type: String,
+    type: Schema.ObjectId,
+    ref: 'User',
     required: true
   },
   applicant: [{
