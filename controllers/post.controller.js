@@ -9,20 +9,19 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
+
 export const createPost = async (req, res) => {
-  console.log(req.body);
-  const title = req.body.post.title
-  const content = req.body.post.author
+  const {title, content} = req.body
   try{
-    const post = await PostService.createPost(title,content);
-    res.status(200).json({
-        post
-    });
-} catch (err) {
-    res.status(400).json({
-        msg: err.toString()
-    });
-}
+      const post = await PostService.createPost(title,content);
+      res.status(200).json({
+          post
+      });
+  } catch (err) {
+      res.status(400).json({
+          msg: err.toString()
+      });
+  }
 }
 
 export const getPosts = async (req, res) => {
@@ -33,6 +32,7 @@ export const getPosts = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 export const getPostById = async (req, res) => {
   try {
     const post = await PostService.getPostById(req.params.id);
@@ -43,13 +43,31 @@ export const getPostById = async (req, res) => {
 };
 
 export const updatePost = async (req, res) => {
-  try {
-    const post = await PostService.updatePost(req.params.id, req.body);
-    res.status(200).json(post);
+  const { id } = req.params;
+  const { title, content } = req.body.group;
+
+
+  const validAuthor = await Promise.all(
+      author.map(async author => {
+        const user = await UserModel.findById(author.id);
+        if (!user) {
+          throw new Error(`User with id ${author.id} not found`);
+        }
+        return user._id; // Solo guardar el identificador de objeto del usuario
+      })
+    );   
+
+  try{
+      const postUpdated = await PostService.updatePost(title, content, validAuthor)
+      res.status(200).json(
+          postUpdated
+      )
   } catch (err) {
-    res.status(500).json({ error: err.message });
+      res.status(400).json({
+          msg: err.toString()
+      })
   }
-};
+}
 
 export const deletePost = async (req, res) => {
   try {

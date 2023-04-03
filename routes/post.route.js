@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {createPost, getAllPosts, getPostsPageable} from '../controllers/post.controller.js';
+import {createPost, getPostsPageable, updatePost} from '../controllers/post.controller.js';
 import { check } from 'express-validator';
 import validateFields from '../middleware/validateFields.js'
 
@@ -11,6 +11,7 @@ postRouter.post('/', [
     check('pageable.pageNumber').not().isEmpty(),
     validateFields
 ], getPostsPageable)
+postRouter.put('/update', updatePost)
 
 export default postRouter
 

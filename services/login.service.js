@@ -30,6 +30,7 @@ export const login = async (email, password) => {
     )
 
     return {
+      id:user.id,
       name: user.name,
       email: user.email,
       token: token
