@@ -43,22 +43,11 @@ export const getPostById = async (req, res) => {
 };
 
 export const updatePost = async (req, res) => {
-  const { id } = req.params;
-  const { title, content } = req.body.group;
-
-
-  const validAuthor = await Promise.all(
-      author.map(async author => {
-        const user = await UserModel.findById(author.id);
-        if (!user) {
-          throw new Error(`User with id ${author.id} not found`);
-        }
-        return user._id; // Solo guardar el identificador de objeto del usuario
-      })
-    );   
+  const {id} = req.params
+  const {title, content} = req.body
 
   try{
-      const postUpdated = await PostService.updatePost(title, content, validAuthor)
+      const postUpdated = await PostService.updatePost(id, title, content)
       res.status(200).json(
           postUpdated
       )
