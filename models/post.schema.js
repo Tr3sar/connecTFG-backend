@@ -21,7 +21,7 @@ const postSchema = new Schema({
     ref: 'User',
     required: true
   },
-  applicant: [{
+  applicants: [{
     type: String,
     required: true
   }],

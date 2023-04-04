@@ -13,7 +13,7 @@ export const createPost = async function(title, content){
       title: title,
       content: content,
       author: '64284841e13f20e618b22c19',
-      applicant: [],
+      applicants: [],
       likes: 0,
       closed: false,
       comment:[]
@@ -66,5 +66,24 @@ export const updatePost = async (id,title, content) => {
       return await PostModel.findByIdAndUpdate(id, {title, content});
   } catch (e) {
       throw new Error('Error updating post')
+  }
+}
+
+export const addApplicant = async (id, applicantId) => {
+  try{
+    const post = await PostModel.findById(id);
+    if (!post) {
+      throw Error('There is no post with that id')
+    }
+
+    console.log('post encontradp')
+
+    if (!post.applicants.includes(applicantId)) {
+      post.applicants.push(applicantId);
+    }
+
+    return await post.save()
+  } catch (e) {
+    throw Error('Error adding applicant')
   }
 }

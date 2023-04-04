@@ -89,3 +89,19 @@ export const getPostsPageable = async (req, res) => {
   }
 }
 
+export const addApplicant = async (req, res) => {
+  const { id } = req.params;
+  const { applicantId } = req.body;
+
+  try{
+    const updatedPost = await PostService.addApplicant(id, applicantId);
+    res.status(200).json(
+      updatedPost
+    )
+  } catch (err) {
+    res.status(400).json({
+      msg: err.toString()
+    })
+  }
+}
+
