@@ -42,9 +42,8 @@ app.use("/feed", postRouter)
 app.use("/user", userRouter)
 
 server.listen(443, () => {
-    console.log('Socket.io server running on port 443')
+    console.log('HTTPS server running on port 443')
 })
-
 
 io.on('connection', (socket) => {
     console.log('Cliente conectado', socket.handshake.query.userId)
