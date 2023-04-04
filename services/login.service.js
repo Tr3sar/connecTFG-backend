@@ -28,9 +28,9 @@ export const login = async (email, password) => {
         expiresIn: 60 * 60 * 24 * 7
       }
     )
-
+    
     return {
-      id:user.id,
+      id:user._id,
       name: user.name,
       email: user.email,
       token: token

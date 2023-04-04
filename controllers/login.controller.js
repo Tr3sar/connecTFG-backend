@@ -10,6 +10,7 @@ export const login = async (req, res) => {
     const infoUserLogin = await LoginService.login(email, password)
 
     res.status(200).json({
+      id: infoUserLogin.id,
       name: infoUserLogin.name,
       email: infoUserLogin.email,
       token: infoUserLogin.token
