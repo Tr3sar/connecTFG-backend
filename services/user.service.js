@@ -48,3 +48,16 @@ export const updateUser = async function (id, status) {
         throw Error('Error updating user')
     }
 }
+
+export const getUserById = async function (id) {
+    try{
+        const user = await UserModel.findById(id);
+        if (!user) {
+            throw Error('There is no user with that id')
+        }
+
+        return user
+    } catch (e) {
+        throw Error('Error fetching user')
+    }
+}

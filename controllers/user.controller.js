@@ -66,3 +66,19 @@ export const updateUserStatus = async (userId, status) => {
 		console.log('ERROR')
 	}
 }
+
+export const getUserById = async (req, res) => {
+	const { id } = req.params;
+	console.log('id', id)
+
+	try{
+		const user = await UserService.getUserById(id);
+		res.status(200).json(
+			user
+		)
+	} catch (err) {
+		res.status(400).json({
+			msg: err.toString()
+		})
+	}
+}
