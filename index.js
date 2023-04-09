@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', async () => {
-        console.log('Cliente desconectado', socket.handshake.query.userId);
         await updateUserStatus(socket.handshake.query.userId, 'disconnected');
+        console.log('Cliente desconectado', socket.handshake.query.userId);
     });
 })
