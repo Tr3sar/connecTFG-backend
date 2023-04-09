@@ -39,21 +39,6 @@ const userSchema = new Schema({
         type: String,
         require: true
     },
-    groups: [{
-        type: Schema.ObjectId,
-        ref: 'Group',
-        require: true
-    }],
-    notifications: [{
-        type: Schema.ObjectId,
-        ref: 'Notification',
-        require: true
-    }],
-    posts: [{
-        type: Schema.ObjectId,
-        ref: 'Post',
-        require: true
-    }],
     rol: {
         type: String,
         require: true

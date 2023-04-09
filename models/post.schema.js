@@ -22,7 +22,8 @@ const postSchema = new Schema({
     required: true
   },
   applicants: [{
-    type: String,
+    type: Schema.ObjectId,
+    ref: 'User',
     required: true
   }],
   likes: {
