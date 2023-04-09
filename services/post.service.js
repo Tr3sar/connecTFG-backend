@@ -87,3 +87,20 @@ export const addApplicant = async (id, applicantId) => {
     throw Error('Error adding applicant')
   }
 }
+
+export const getApplicantsToUser = async (userId) => {
+  try{
+    const postsFromUser = await PostModel.find({author: userId}).populate('applicants')
+    
+    const applicants = postsFromUser.reduce((acc, post) => {
+      return acc.concat(post.applicants)
+    }, []);
+
+    const uniqueApplicants = [...new Set(applicants)]
+
+    return uniqueApplicants;
+
+  } catch (e) {
+    throw Error('Error fetching applicants')
+  }
+}

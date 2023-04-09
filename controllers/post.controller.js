@@ -105,3 +105,17 @@ export const addApplicant = async (req, res) => {
   }
 }
 
+export const getApplicantsToUser = async (req, res) => {
+  const { userId } = req.params;
+
+  try{
+    const applicants = await PostService.getApplicantsToUser(userId);
+    res.status(200).json(
+      applicants
+    )
+  } catch(err) {
+    res.status(400).json({
+      msg: err.toString()
+    })
+  }
+}
