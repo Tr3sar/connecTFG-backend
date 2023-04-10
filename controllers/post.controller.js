@@ -119,3 +119,23 @@ export const getApplicantsToUser = async (req, res) => {
     })
   }
 }
+
+export const rejectApplicant = async (req, res) => {
+  const { userId } = req.params;
+  const {applicantId} = req.body;
+
+  console.log('userId ' , userId)
+  console.log('applicantId ', applicantId)
+
+  try{
+    const posts = await PostService.rejectApplicant(userId, applicantId);
+
+    res.status(200).json(
+      posts
+    )
+  } catch (err) {
+    res.status(400).json({
+      msg: err.toString()
+    })
+  }
+}

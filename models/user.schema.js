@@ -46,7 +46,12 @@ const userSchema = new Schema({
     status: {
         type: String,
         require: true
-    }
+    },
+    conections: [{
+        type: Schema.ObjectId,
+        ref: 'User',
+        required: true
+    }]
 })
 userSchema.plugin(normalize);
 const UserModel = model('User', userSchema);

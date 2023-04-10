@@ -82,3 +82,34 @@ export const getUserById = async (req, res) => {
 		})
 	}
 }
+
+export const acceptUserConection = async (req, res) => {
+	const { id } = req.params;
+	const { conectionUserId } = req.body;
+
+	try{
+		const updatedUser = await UserService.acceptUserConection(id, conectionUserId);
+		res.status(200).json(
+			updatedUser
+		)
+	} catch (err) {
+		res.status(400).json({
+			msg: err.toString()
+		})
+	}
+}
+
+export const getUserConections = async (req, res) => {
+	const {id} = req.params;
+
+	try{
+		const conections = await UserService.getUserConections(id);
+		res.status(200).json(
+			conections
+		)
+	} catch (err) {
+		res.status(400).json({
+			msg: err.toString()
+		})
+	}
+}

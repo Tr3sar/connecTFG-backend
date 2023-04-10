@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {createPost, getPostsPageable, updatePost, deletePost, addApplicant, getApplicantsToUser} from '../controllers/post.controller.js';
+import {createPost, getPostsPageable, updatePost, deletePost, addApplicant, getApplicantsToUser, rejectApplicant} from '../controllers/post.controller.js';
 import { check } from 'express-validator';
 import validateFields from '../middleware/validateFields.js'
 
@@ -9,6 +9,7 @@ postRouter.delete('/:id', deletePost)
 postRouter.put('/:id', updatePost)
 postRouter.put('/apply/:id', addApplicant)
 postRouter.get('/applicants/:userId', getApplicantsToUser)
+postRouter.put('/applicants/:userId', rejectApplicant)
 postRouter.post('/', [
     check('pageable').not().isEmpty(),
     check('pageable.pageSize').not().isEmpty(),

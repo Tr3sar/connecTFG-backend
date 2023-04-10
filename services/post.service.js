@@ -1,5 +1,4 @@
 import PostModel from '../models/post.schema.js';
-
 export const getAllPosts = async () => {
   try{
     return await PostModel.find().sort('createdAt');
@@ -102,5 +101,28 @@ export const getApplicantsToUser = async (userId) => {
 
   } catch (e) {
     throw Error('Error fetching applicants')
+  }
+}
+
+export const rejectApplicant = async (userId, applicantId) => {
+  try{
+    const posts = await PostModel.find({author: userId});
+    if (!posts) {
+      throw Error('There is no post with that arguments')
+    }
+    
+    for (const post of posts) {
+      if (post.applicants.includes(applicantId)) {        
+        post.applicants = post.applicants.filter(applicant => {
+          applicant.id != applicantId;
+        })
+        await post.save()
+      }
+    }
+  
+
+    return posts;
+  } catch (e) {
+    throw Error('Error rejecting applicant')
   }
 }

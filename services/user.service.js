@@ -61,3 +61,36 @@ export const getUserById = async function (id) {
         throw Error('Error fetching user')
     }
 }
+
+export const acceptUserConection = async function (id, conectionUserId) {
+    try{
+        const user = await UserModel.findById(id);
+
+        if (!user) {
+            throw Error('There is no user with that id')
+        }
+
+        if (!user.conections.includes(conectionUserId)) {
+            user.conections.push(conectionUserId)
+        }
+
+        await user.save()
+
+        return user;
+    } catch (e) {
+        throw Error ('error updating user')
+    }
+}
+
+export const getUserConections = async function (id) {
+    try{
+        const user = await UserModel.findById(id)
+        if (!user) {
+            throw Error('There is no user with that id')
+        }
+        
+        return user.conections;
+    } catch (e) {
+        throw Error('Error fetching user conections')
+    }
+}
