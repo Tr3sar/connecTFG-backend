@@ -11,9 +11,10 @@ const notificationSchema = new Schema({
         type: String,
         required: true
     },
-    user_id: {
-        type: Number,
-        required: true
+    user: {
+        type: Schema.ObjectId,
+        ref: 'User',
+        require: true
     }
 }, {
     versionKey: false,
