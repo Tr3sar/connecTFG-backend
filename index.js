@@ -14,6 +14,7 @@ import https from 'https';
 
 
 import { updateUserStatus } from './controllers/user.controller.js';
+import { env } from 'process';
 
  
 config();
@@ -25,8 +26,9 @@ const options = {
     cert: fs.readFileSync('./certs/cert.pem')
   };
 
+const httpServer = createServer(app);
 const server = https.createServer(options, app);
-const io = new Server(server, {cors: {
+const io = new Server(httpServer, {cors: {
     origin: "http://localhost:4200"
   }})
 
@@ -40,6 +42,10 @@ app.use("/group", groupRouter)
 app.use("/login", loginRouter)
 app.use("/feed", postRouter)
 app.use("/user", userRouter)
+
+httpServer.listen(env.HTTP_PORT, () => {
+    console.log(`HTTP server running on port ${env.HTTP_PORT}`)
+})
 
 server.listen(443, () => {
     console.log('HTTPS server running on port 443')
