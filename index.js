@@ -28,7 +28,7 @@ const options = {
 
 const httpServer = createServer(app);
 const server = https.createServer(options, app);
-const io = new Server(server, {cors: {
+const io = new Server(httpServer, {cors: {
     origin: "http://localhost:4200"
   }})
 
