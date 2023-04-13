@@ -6,3 +6,7 @@ certs
 
 #node_modules
 node_modules
+
+#heroku
+.DS_Store
+logs/
