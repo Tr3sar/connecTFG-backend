@@ -96,3 +96,16 @@ export const updateGroup = async (id, name, description, members) => {
         throw new Error('Error updating group')
     }
 }
+
+export const deleteGroupById = async (id) => {
+    try{
+        const group = await GroupModel.findById(id);
+        if (!group) {
+            throw Error('There is no group with that id')
+        }
+
+        return await GroupModel.findByIdAndDelete(id);
+    } catch (e) {
+        throw Error('Error deleting group.')
+    }
+}

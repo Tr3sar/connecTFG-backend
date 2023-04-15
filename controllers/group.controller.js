@@ -132,3 +132,18 @@ export const updateGroup = async (req, res) => {
         })
     }
 }
+
+export const deleteGroupById = async (req, res) => {
+    const { id } = req.params;
+
+    try{
+        const deletedGroup = await GroupService.deleteGroupById(id);
+        res.status(200).json(
+            deletedGroup
+        )
+    } catch (err) {
+        res.status(400).json({
+            msg: err.toString()
+        })
+    }
+}
