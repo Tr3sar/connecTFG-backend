@@ -5,9 +5,10 @@ import { config } from 'dotenv';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import notificationRouter from './routes/notification.routes.js'
+import commentRouter from './routes/comment.routes.js';
 import groupRouter from './routes/group.routes.js'
 import loginRouter from './routes/login.routes.js';
-import postRouter from './routes/post.route.js';
+import postRouter from './routes/post.routes.js';
 import userRouter from './routes/user.routes.js'
 import fs from 'fs';
 import https from 'https';
@@ -15,6 +16,7 @@ import https from 'https';
 
 import { updateUserStatus } from './controllers/user.controller.js';
 import { env } from 'process';
+
 
  
 config();
@@ -38,6 +40,7 @@ app.use(cors({
 
 app.use(express.json())
 app.use("/notification", notificationRouter)
+app.use("/comment", commentRouter)
 app.use("/group", groupRouter)
 app.use("/login", loginRouter)
 app.use("/feed", postRouter)

@@ -1,5 +1,8 @@
 import mongoose from 'mongoose'
-const { Schema, model } = mongoose
+const {
+    Schema,
+    model
+} = mongoose
 
 import normalize from 'normalize-mongoose'
 
