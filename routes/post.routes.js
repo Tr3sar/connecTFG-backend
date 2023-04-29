@@ -1,13 +1,25 @@
-import { Router } from 'express';
-import {createPost, getPostsPageable, updatePost, deletePost, addApplicant, getApplicantsToUser, rejectApplicant} from '../controllers/post.controller.js';
-import { check } from 'express-validator';
+import {
+    Router
+} from 'express';
+import {
+    createPost,
+    getPostsPageable,
+    updatePost,
+    deletePost,
+    addApplicant,
+    getApplicantsToUser,
+    rejectApplicant
+} from '../controllers/post.controller.js';
+import {
+    check
+} from 'express-validator';
 import validateFields from '../middleware/validateFields.js'
 
 const postRouter = Router()
 postRouter.post('/create', createPost)
 postRouter.delete('/:id', deletePost)
 postRouter.put('/:id', updatePost)
-postRouter.put('/apply/:id', addApplicant)
+postRouter.put('/apply/:postId', addApplicant)
 postRouter.get('/applicants/:userId', getApplicantsToUser)
 postRouter.put('/applicants/:userId', rejectApplicant)
 postRouter.post('/', [
@@ -19,4 +31,3 @@ postRouter.post('/', [
 
 
 export default postRouter
-

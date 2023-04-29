@@ -2,7 +2,10 @@ import mongoose from 'mongoose';
 import normalize from 'normalize-mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
-const { Schema, model } = mongoose;
+const {
+  Schema,
+  model
+} = mongoose;
 
 const postSchema = new Schema({
   id: {
@@ -35,14 +38,15 @@ const postSchema = new Schema({
     required: true,
     default: false
   },
-  comment: [{
-    type: String,
-    required: true
-  }],
-  
+  comments: [{
+    type: Schema.ObjectId,
+    ref: 'Comment',
+    required: true,
+  }, ],
+
 }, {
-    versionKey: false,
-    timestamps: true
+  versionKey: false,
+  timestamps: true
 })
 
 postSchema.plugin(normalize);

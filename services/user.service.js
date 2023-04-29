@@ -2,15 +2,15 @@ import UserModel from '../models/user.schema.js';
 import bcrypt from 'bcrypt'
 
 export const getUsers = async function () {
-    try{
+    try {
         return await UserModel.find().sort('name')
     } catch (e) {
         throw new Error('Error fetching users')
     }
-}   
+}
 
 export const createUser = async function (name, surname, password, email, img_url, tfg_url, degree, description) {
-    try{
+    try {
         const saltRounds = 10
         const passwordHash = await bcrypt.hash(password, saltRounds)
 
@@ -37,20 +37,22 @@ export const createUser = async function (name, surname, password, email, img_ur
 }
 
 export const updateUser = async function (id, status) {
-    try{
+    try {
         const user = UserModel.findById(id);
         if (!user) {
             throw Error('There is no user with that id')
         }
 
-        return await UserModel.findByIdAndUpdate(id, {status})
+        return await UserModel.findByIdAndUpdate(id, {
+            status
+        })
     } catch (e) {
         throw Error('Error updating user')
     }
 }
 
 export const getUserById = async function (id) {
-    try{
+    try {
         const user = await UserModel.findById(id);
         if (!user) {
             throw Error('There is no user with that id')
@@ -63,7 +65,7 @@ export const getUserById = async function (id) {
 }
 
 export const acceptUserConection = async function (id, conectionUserId) {
-    try{
+    try {
         const user = await UserModel.findById(id);
 
         if (!user) {
@@ -78,7 +80,7 @@ export const acceptUserConection = async function (id, conectionUserId) {
 
         return user;
     } catch (e) {
-        throw Error ('error updating user')
+        throw Error('error updating user')
     }
 }
 
@@ -88,7 +90,7 @@ export const getUserConections = async function (id) {
         if (!user) {
             throw Error('There is no user with that id')
         }
-        
+
         return user.conections;
     } catch (e) {
         throw Error('Error fetching user conections')
