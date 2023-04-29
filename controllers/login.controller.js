@@ -13,7 +13,8 @@ export const login = async (req, res) => {
       id: infoUserLogin.id,
       name: infoUserLogin.name,
       email: infoUserLogin.email,
-      token: infoUserLogin.token
+      token: infoUserLogin.token,
+      user: infoUserLogin.user
     })
 
   } catch (err) {

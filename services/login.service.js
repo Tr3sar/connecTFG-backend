@@ -33,7 +33,8 @@ export const login = async (email, password) => {
       id:user._id,
       name: user.name,
       email: user.email,
-      token: token
+      token: token,
+      user
     }
   } catch (e) {
     throw new Error('Error signin in')
