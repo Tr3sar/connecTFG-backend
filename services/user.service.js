@@ -84,7 +84,7 @@ export const acceptUserConection = async function (id, conectionUserId) {
 
 export const getUserConections = async function (id) {
     try{
-        const user = await UserModel.findById(id)
+        const user = await UserModel.findById(id).populate('conections')
         if (!user) {
             throw Error('There is no user with that id')
         }
