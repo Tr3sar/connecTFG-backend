@@ -40,7 +40,7 @@ export const deletePost = async function (id) {
 
 export const getPostsPageable = async (page, limit, sort, filterValue) => {
   const sortObj = {
-    [sort ?.property || 'createdAt']: sort ?.direction === 'DESC' ? 'DESC' : 'ASC'
+    [sort ?.property || 'createdAt']: sort ?.direction === 'ASC' ? 'ASC' : 'DESC'
   };
   try {
     const filterObj = {
