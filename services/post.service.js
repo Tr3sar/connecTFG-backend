@@ -2,8 +2,7 @@ import PostModel from '../models/post.schema.js';
 
 export const getAllPosts = async () => {
   try {
-    console.log("asdqweqweqwe")
-    return await PostModel.find().populate('comments', 'applicants').sort('createdAt');
+    return await PostModel.find().populate('comments', 'applicants',"closed").sort('createdAt');
 
   } catch (e) {
     throw Error('Error fetching Posts')
@@ -29,10 +28,7 @@ export const createPost = async function (title, content) {
 
 export const getPostById = async function (id) {
   return await post.findById(id);
-
 };
-
-
 
 export const deletePost = async function (id) {
   try {
@@ -42,11 +38,14 @@ export const deletePost = async function (id) {
   }
 };
 
-export const getPostsPageable = async (page, limit, sort) => {
+export const getPostsPageable = async (page, limit, sort, filterValue) => {
   const sortObj = {
     [sort ?.property || 'createdAt']: sort ?.direction === 'DESC' ? 'DESC' : 'ASC'
   };
   try {
+    const filterObj = {
+      closed: filterValue == "Closed" ? true : false
+    }
     const options = {
       page: parseInt(page) + 1,
       limit,
@@ -61,8 +60,7 @@ export const getPostsPageable = async (page, limit, sort) => {
         path: 'author'
       }]
     };
-
-    return await PostModel.paginate({}, options);
+    return await PostModel.paginate({closed: filterObj.closed}, options);
   } catch (e) {
     throw Error('Error fetching posts page');
   }

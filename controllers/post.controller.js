@@ -71,9 +71,10 @@ export const getPostsPageable = async (req, res) => {
   const page = req.body.pageable.pageNumber || 0;
   const limit = req.body.pageable.pageSize || 5;
   const sort = req.body.pageable.sort || null;
+  const filterValue = req.body.filterValue || '';
 
   try {
-      const response = await PostService.getPostsPageable(page, limit, sort);
+      const response = await PostService.getPostsPageable(page, limit, sort, filterValue);
       res.status(200).json({
           content: response.docs,
           pageable: {
@@ -110,7 +111,6 @@ export const addApplicant = async (req, res) => {
 
 export const getApplicantsToUser = async (req, res) => {
   const { userId } = req.params;
-
   try{
     const applicants = await PostService.getApplicantsToUser(userId);
     res.status(200).json(
