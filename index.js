@@ -46,13 +46,13 @@ app.use("/login", loginRouter)
 app.use("/feed", postRouter)
 app.use("/user", userRouter)
 
-httpServer.listen(env.HTTP_PORT, () => {
+httpServer.listen(env.HTTP_PORT || 8080, () => {
     console.log(`HTTP server running on port ${env.HTTP_PORT}`)
 })
 
-server.listen(443, () => {
+/* server.listen(443, () => {
     console.log('HTTPS server running on port 443')
-})
+}) */
 
 io.on('connection', (socket) => {
     console.log('Cliente conectado', socket.handshake.query.userId)
