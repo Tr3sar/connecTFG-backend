@@ -20,7 +20,7 @@ import { env } from 'process';
 
  
 config();
-connectDB(process.env.MONGODB_URL || 'mongodb+srv://josepcdg:Lj5dT_47@connectfg-cluster.jmqnczt.mongodb.net/?retryWrites=true&w=majority');
+connectDB(process.env.MONGODB_URL);
 const app = express();
 
 const options = {
@@ -46,7 +46,7 @@ app.use("/login", loginRouter)
 app.use("/feed", postRouter)
 app.use("/user", userRouter)
 
-httpServer.listen(env.HTTP_PORT || 8080, () => {
+httpServer.listen(env.HTTP_PORT, () => {
     console.log(`HTTP server running on port ${env.HTTP_PORT}`)
 })
 
