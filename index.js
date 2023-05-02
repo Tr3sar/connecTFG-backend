@@ -20,7 +20,7 @@ import { env } from 'process';
 
  
 config();
-connectDB(process.env.MONGODB_URL);
+connectDB(process.env.MONGODB_URL || 'mongodb+srv://josepcdg:Lj5dT_47@connectfg-cluster.jmqnczt.mongodb.net/?retryWrites=true&w=majority');
 const app = express();
 
 const options = {
