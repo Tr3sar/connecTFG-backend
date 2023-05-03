@@ -67,8 +67,9 @@ export const getUserById = async function (id) {
 export const acceptUserConection = async function (id, conectionUserId) {
     try {
         const user = await UserModel.findById(id);
+        const userConection = await UserModel.findById(conectionUserId);
 
-        if (!user) {
+        if (!user || !userConection) {
             throw Error('There is no user with that id')
         }
 
@@ -76,7 +77,12 @@ export const acceptUserConection = async function (id, conectionUserId) {
             user.conections.push(conectionUserId)
         }
 
+        if (!userConection.conections.includes(id)) {
+            userConection.conections.push(conectionUserId);
+        }
+
         await user.save()
+        await userConection.save();
 
         return user;
     } catch (e) {
