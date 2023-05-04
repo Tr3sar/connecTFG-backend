@@ -44,7 +44,13 @@ export const getMessagesFromGroup = async function(id) {
             throw Error('Group not found')
         }
 
-        const groupPopulated = await group.populate('messages')
+        const groupPopulated = await group.populate({
+            path: 'messages',
+            populate: {
+                path: 'emitter',
+                model: 'User'
+            }
+        })
 
         return groupPopulated.messages
     } catch (e) {
