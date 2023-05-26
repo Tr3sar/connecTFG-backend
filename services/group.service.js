@@ -118,18 +118,20 @@ export const deleteGroupById = async (id) => {
 
 export const getGroupFromTwoUsers = async (userId1, userId2) => {
     try{
+
+        console.log('userId1', userId1)
+        console.log('userId2', userId2)
+
+
         const group = await GroupModel.find({
             members: { 
-                $in: [userId1, userId2],
-                $size: 2
+                $all: [userId1, userId2]
             }
         })
 
         if (group.length === 0) {
-            throw Error('There is no grouop with those users')
+            throw new Error('There is no grouop with those users')
         }
-
-        console.log('group', group.name)
 
         return group
     } catch (e) {
