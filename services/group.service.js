@@ -115,3 +115,24 @@ export const deleteGroupById = async (id) => {
         throw Error('Error deleting group.')
     }
 }
+
+export const getGroupFromTwoUsers = async (userId1, userId2) => {
+    try{
+        const group = await GroupModel.find({
+            members: { 
+                $in: [userId1, userId2],
+                $size: 2
+            }
+        })
+
+        if (group.length === 0) {
+            throw Error('There is no grouop with those users')
+        }
+
+        console.log('group', group.name)
+
+        return group
+    } catch (e) {
+        throw Error('Error obtaining group')
+    }
+}

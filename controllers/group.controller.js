@@ -147,3 +147,19 @@ export const deleteGroupById = async (req, res) => {
         })
     }
 }
+
+export const getGroupFromTwoUsers = async (req, res) => {
+    const { userId1 } = req.params;
+    const { userId2 } = req.params;
+
+    try{
+        const group = await GroupService.getGroupFromTwoUsers(userId1, userId2);
+        res.status(200).json(
+            group
+        )
+    } catch (err) {
+        res.status(400).json({
+            msg: err.toString()
+        })
+    }
+}
