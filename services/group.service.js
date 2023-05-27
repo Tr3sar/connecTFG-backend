@@ -14,7 +14,6 @@ export const createGroup = async function(name, members, description) {
         return await group.save()
 
     } catch (e) {
-        console.log(e)
         throw Error('Error creating group');
     }
 }
@@ -118,11 +117,6 @@ export const deleteGroupById = async (id) => {
 
 export const getGroupFromTwoUsers = async (userId1, userId2) => {
     try{
-
-        console.log('userId1', userId1)
-        console.log('userId2', userId2)
-
-
         const group = await GroupModel.find({
             members: { 
                 $all: [userId1, userId2]
