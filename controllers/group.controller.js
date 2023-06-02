@@ -91,8 +91,14 @@ export const getGroupsExpanded = async (req, res) => {
 
 export const createMessage = async (req, res) => {
     const {group_id, emitter, message} = req.body;
+    const file = req.file;
+
+    if (message == undefined) {
+        message = ''
+    }
+
     try{
-        const group = GroupService.createMessage(group_id, emitter, message);
+        const group = GroupService.createMessage(group_id, emitter, message, file);
         res.status(200).json({
             group
         });

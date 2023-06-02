@@ -51,7 +51,24 @@ export const getMessagesFromGroup = async function(id) {
             }
         })
 
-        return groupPopulated.messages
+        const formattedMessages = groupPopulated.messages.map(message => {
+            const {_id, text, file, emitter } = message;
+
+            return {
+                _id,
+                text,
+                file: file.data instanceof Buffer
+                ? {
+                    data: file.data.toString('base64'),
+                    contentType: file.contentType,
+                    filename: file.filename
+                  }
+                : null,
+                emitter
+            };
+        });
+
+        return formattedMessages
     } catch (e) {
         throw Error('Error fetching messages')
     }
@@ -68,15 +85,34 @@ export const getGroupsExpanded = async function () {
     }
 }
 
-export const createMessage = async function (group_id, emitter, text) {
+export const createMessage = async function (group_id, emitter, text, file) {
     try{
+        if (!text && !file) {
+            throw new Error('Message without content')
+        } else if (!file) {
+            file = { 
+                buffer : '',
+                mimetype: '',
+                originalname: ''
+            }
+        } else if (text == 'undefined' || text == undefined) {
+            text = ''
+        }
+
         const group = await GroupModel.findById(group_id);
         if (!group) {
             throw new Error('Group not found')
         }
 
+        
+
         const message = new MessageModel({
-            text: text,
+            text: text || '',
+            file: {
+                data: file.buffer,
+                contentType: file.mimetype,
+                filename: file.originalname
+            },
             emitter: emitter
         })
 

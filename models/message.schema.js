@@ -9,7 +9,21 @@ const messageSchema = new Schema({
     },
     text: {
         type: String,
-        require: true
+        required: false
+    },
+    file: {
+        data: {
+          type: Buffer,
+          required: false
+        },
+        contentType: {
+          type: String,
+          required: false
+        },
+        filename: {
+          type: String,
+          required: false
+        }
     },
     emitter: {
         type: Schema.ObjectId,
