@@ -59,8 +59,7 @@ export const getMessagesFromGroup = async function(id) {
                 text,
                 file: file.data instanceof Buffer
                 ? {
-                    data: file.data.toString('base64'),
-                    contentType: file.contentType,
+                    href: 'data:' + file.contentType + ';base64,' + file.data.toString('base64'),
                     filename: file.filename
                   }
                 : null,
