@@ -2,7 +2,7 @@ import NotificationModel from '../models/notification.schema.js'
 
 export const createNotification = async function(type, emitter_id, receiver_id) {
     try {
-        const types = ['connection']
+        const types = ['connection', 'post']
 
         if(!types.includes(type)) {
             throw new Error("This type doesn't exists.")
