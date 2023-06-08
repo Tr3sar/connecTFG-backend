@@ -17,7 +17,7 @@ export const createNotification = async function(type, emitter_id, receiver_id) 
 
 export const getNotificationsByUserId = async function (user_id) {
     try{
-        const notifications = await NotificationModel.find({receiver: user_id})
+        const notifications = await NotificationModel.find({receiver: user_id}).populate('emitter')
         return notifications;
     } catch(e) {
         throw Error('Error fetching notifications')
