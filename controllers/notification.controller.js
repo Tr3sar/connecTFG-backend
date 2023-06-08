@@ -1,10 +1,10 @@
 import * as NotificationService from "../services/notification.service.js";
 
 export const createNotification = async (req, res) => {
-    const { message, user_id } = req.body;
+    const { type, emitter, receiver } = req.body;
 
     try{
-        const notification = await NotificationService.createNotification(message, user_id);
+        const notification = await NotificationService.createNotification(type, emitter, receiver);
         res.status(200).json(
             notification
         )

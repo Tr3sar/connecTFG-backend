@@ -7,11 +7,16 @@ const notificationSchema = new Schema({
     id: {
         type: Schema.Types.ObjectId
     },
-    message: {
+    type: {
         type: String,
         required: true
     },
-    user: {
+    emitter: {
+        type: Schema.ObjectId,
+        ref: 'User',
+        require: true
+    },
+    receiver: {
         type: Schema.ObjectId,
         ref: 'User',
         require: true

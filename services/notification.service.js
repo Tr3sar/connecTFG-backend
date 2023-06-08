@@ -1,8 +1,14 @@
 import NotificationModel from '../models/notification.schema.js'
 
-export const createNotification = async function(message, user_id) {
+export const createNotification = async function(type, emitter_id, receiver_id) {
     try {
-        const notification = new NotificationModel({ message, user: user_id });
+        const types = ['connection']
+
+        if(!types.includes(type)) {
+            throw new Error("This type doesn't exists.")
+        }
+
+        const notification = new NotificationModel({ type, emitter: emitter_id, receiver: receiver_id });
         return await notification.save();
     } catch (e) {
         throw Error('Error creating notification');
@@ -11,7 +17,7 @@ export const createNotification = async function(message, user_id) {
 
 export const getNotificationsByUserId = async function (user_id) {
     try{
-        const notifications = await NotificationModel.find({user: user_id})
+        const notifications = await NotificationModel.find({receiver: user_id})
         return notifications;
     } catch(e) {
         throw Error('Error fetching notifications')
