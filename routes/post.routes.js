@@ -5,6 +5,7 @@ import {
     createPost,
     getPostsPageable,
     updatePost,
+    getPostsFromUser,
     deletePost,
     addApplicant,
     getApplicantsToUser,
@@ -19,6 +20,7 @@ const postRouter = Router()
 postRouter.post('/create', createPost)
 postRouter.delete('/:id', deletePost)
 postRouter.put('/:id', updatePost)
+postRouter.get('/:userId', getPostsFromUser)
 postRouter.put('/apply/:postId', addApplicant)
 postRouter.get('/applicants/:userId', getApplicantsToUser)
 postRouter.put('/applicants/:userId', rejectApplicant)

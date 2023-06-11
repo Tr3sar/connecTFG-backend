@@ -2,19 +2,19 @@ import PostModel from '../models/post.schema.js';
 
 export const getAllPosts = async () => {
   try {
-    return await PostModel.find().populate('comments', 'applicants',"closed").sort('createdAt');
+    return await PostModel.find().populate('comments', 'applicants', "closed").sort('createdAt');
 
   } catch (e) {
     throw Error('Error fetching Posts')
   }
 };
 
-export const createPost = async function (title, content) {
+export const createPost = async function (title, content,author) {
   try {
     const post = new PostModel({
       title: title,
       content: content,
-      author: '64284841e13f20e618b22c19',
+      author: author,
       applicants: [],
       likes: 0,
       closed: false,
@@ -60,13 +60,15 @@ export const getPostsPageable = async (page, limit, sort, filterValue) => {
         path: 'author'
       }]
     };
-    return await PostModel.paginate({closed: filterObj.closed}, options);
+    return await PostModel.paginate({
+      closed: filterObj.closed
+    }, options);
   } catch (e) {
     throw Error('Error fetching posts page');
   }
 }
 
-export const updatePost = async (id, title, content) => {
+export const updatePost = async (id, title, content, closed) => {
   try {
     const post = await PostModel.findById(id);
     if (!post) {
@@ -75,12 +77,26 @@ export const updatePost = async (id, title, content) => {
 
     return await PostModel.findByIdAndUpdate(id, {
       title,
-      content
+      content,
+      closed
     });
   } catch (e) {
     throw new Error('Error updating post')
   }
 }
+export const getPostsFromUser = async function (userId) {
+  try {
+
+    const posts = await PostModel.find({ author: userId })
+      .sort('createdAt')
+      .populate('author');
+      console.log(posts)
+      console.log("userId",userId)
+    return posts;
+  } catch (e) {
+    throw Error('Error fetching user posts');
+  }
+};
 
 export const addApplicant = async (postId, applicantId) => {
   try {
