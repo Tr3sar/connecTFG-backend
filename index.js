@@ -42,7 +42,7 @@ app.use(express.json())
 app.use("/notification", notificationRouter)
 app.use("/comment", commentRouter)
 app.use("/group", groupRouter)
-app.use("/login", loginRouter)
+app.use("/auth", loginRouter)
 app.use("/feed", postRouter)
 app.use("/user", userRouter)
 
