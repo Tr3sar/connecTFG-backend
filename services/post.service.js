@@ -84,14 +84,34 @@ export const updatePost = async (id, title, content, closed) => {
     throw new Error('Error updating post')
   }
 }
+
+export const closePost = async (id) => {
+  try {
+    console.log("Entra al Service Back", id)
+    const post = await PostModel.findById(id);
+    console.log("Post:", post)
+    if (!post) {
+      throw new Error('Post not found');
+    }
+    console.log("Post.id:",post.id)
+    console.log("Post:",post)
+    post.closed = true;
+    console.log("Post post closed:",post)
+    await post.save();
+
+    return post;
+  } catch (error) {
+    throw new Error('Failed to close post');
+  }
+
+}
+
 export const getPostsFromUser = async function (userId) {
   try {
 
     const posts = await PostModel.find({ author: userId })
       .sort('createdAt')
       .populate('author');
-      console.log(posts)
-      console.log("userId",userId)
     return posts;
   } catch (e) {
     throw Error('Error fetching user posts');
@@ -104,11 +124,9 @@ export const addApplicant = async (postId, applicantId) => {
     if (!post) {
       throw Error('There is no post with that id')
     }
-    console.log('Post encontrado')
     if (!post.applicants.includes(applicantId)) {
       post.applicants.push(applicantId);
     }
-    console.log(post.applicants)
     return await post.save()
   } catch (e) {
     throw Error('Error adding applicant')
@@ -155,4 +173,5 @@ export const rejectApplicant = async (userId, applicantId) => {
   } catch (e) {
     throw Error('Error rejecting applicant')
   }
+
 }
