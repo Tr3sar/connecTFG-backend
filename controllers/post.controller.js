@@ -11,9 +11,9 @@ export const getAllPosts = async (req, res) => {
 
 
 export const createPost = async (req, res) => {
-  const {title, content} = req.body
+  const {title, content, author} = req.body
   try{
-      const post = await PostService.createPost(title,content);
+      const post = await PostService.createPost(title,content,author);
       res.status(200).json({
           post
       });
@@ -42,12 +42,22 @@ export const getPostById = async (req, res) => {
   }
 };
 
+export const getPostsFromUser = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const posts = await PostService.getPostsFromUser(userId);
+    res.status(200).json(posts);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 export const updatePost = async (req, res) => {
   const {id} = req.params
   const {title, content} = req.body
 
   try{
-      const postUpdated = await PostService.updatePost(id, title, content)
+      const postUpdated = await PostService.updatePost(id, title, content, closed)
       res.status(200).json(
           postUpdated
       )
@@ -57,6 +67,17 @@ export const updatePost = async (req, res) => {
       })
   }
 }
+
+export const closePost = async (req, res) => {
+  const {postId}  = req.body;
+  try {
+    console.log("PreClose Post Controller", postId)
+    const post = await PostService.closePost(postId);
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to close post' });
+  }
+};
 
 export const deletePost = async (req, res) => {
   try {
@@ -93,7 +114,6 @@ export const getPostsPageable = async (req, res) => {
 export const addApplicant = async (req, res) => {
   const { postId } = req.params;
   const { applicantId } = req.body;
-  console.log(postId,applicantId)
 
   try{
     const updatedPost = await PostService.addApplicant(postId, applicantId);
@@ -108,6 +128,8 @@ export const addApplicant = async (req, res) => {
     })
   }
 }
+
+
 
 export const getApplicantsToUser = async (req, res) => {
   const { userId } = req.params;
@@ -127,12 +149,8 @@ export const rejectApplicant = async (req, res) => {
   const { userId } = req.params;
   const {applicantId} = req.body;
 
-  console.log('userId ' , userId)
-  console.log('applicantId ', applicantId)
-
   try{
     const posts = await PostService.rejectApplicant(userId, applicantId);
-
     res.status(200).json(
       posts
     )

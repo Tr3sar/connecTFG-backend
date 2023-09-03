@@ -5,10 +5,12 @@ import {
     createPost,
     getPostsPageable,
     updatePost,
+    getPostsFromUser,
     deletePost,
     addApplicant,
     getApplicantsToUser,
-    rejectApplicant
+    rejectApplicant,
+    closePost
 } from '../controllers/post.controller.js';
 import {
     check
@@ -19,7 +21,9 @@ const postRouter = Router()
 postRouter.post('/create', createPost)
 postRouter.delete('/:id', deletePost)
 postRouter.put('/:id', updatePost)
+postRouter.get('/:userId', getPostsFromUser)
 postRouter.put('/apply/:postId', addApplicant)
+postRouter.post('/close', closePost);
 postRouter.get('/applicants/:userId', getApplicantsToUser)
 postRouter.put('/applicants/:userId', rejectApplicant)
 postRouter.post('/', [

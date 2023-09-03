@@ -22,8 +22,39 @@ export const login = async (req, res) => {
       msg: err.toString()
     })
   }
+  
 }
 
+export const createUser = async (req, res) => {
+	try {
+		const {
+			name,
+			surname,
+			password,
+			email,
+			degree,
+			description
+		} = req.body
 
+		let social_url = []
+		let tfg_url = ''
+
+		console.log("User")
+		
+		const user = await LoginService.createUser(name, surname, password, email, social_url, tfg_url, degree, description);
+	
+		
+		res.status(200).json({
+			user
+		})
+
+
+
+	} catch (err) {
+		res.status(400).json({
+			msg: err.toString()
+		})
+	}
+}
 
 

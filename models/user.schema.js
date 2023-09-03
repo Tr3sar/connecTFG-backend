@@ -26,10 +26,10 @@ const userSchema = new Schema({
         type: String,
         require: true
     },
-    img_url: {
+    social_url: [{
         type: String,
-        require: true
-    },
+        required: true
+    }],
     tfg_url: {
         type: String,
         require: true

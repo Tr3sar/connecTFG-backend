@@ -41,3 +41,30 @@ export const login = async (email, password) => {
   }
 }
 
+export const createUser = async function (name, surname, password, email, social_url, tfg_url, degree, description) {
+  try {
+      console.log("userprevio")
+      const saltRounds = 10
+      const passwordHash = await bcrypt.hash(password, saltRounds)
+      console.log("user:")
+      const user = new UserModel({
+          name,
+          surname,
+          password: passwordHash,
+          email,
+          social_url,
+          tfg_url,
+          degree,
+          description,
+          groups: [],
+          notifications: [],
+          posts: [],
+          rol: 'Alumno',
+          status: 'connected'
+      })
+
+      return await user.save();
+  } catch (e) {
+      throw new Error('Error creating user')
+  }
+}
