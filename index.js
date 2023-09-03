@@ -31,7 +31,7 @@ const options = {
 const httpServer = createServer(app);
 const server = https.createServer(options, app);
 const io = new Server(httpServer, {cors: {
-    origin: "https://connectfg.onrender.com"
+    origin: "https://connectfg-902af.web.app"
   }})
 
 app.use(cors({
