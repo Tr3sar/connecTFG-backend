@@ -54,9 +54,15 @@ httpServer.listen(env.HTTP_PORT, () => {
     console.log('HTTPS server running on port 443')
 }) */
 
+const usersConnected = new Map();
+
 io.on('connection', (socket) => {
     console.log('Cliente conectado', socket.handshake.query.userId)
     updateUserStatus(socket.handshake.query.userId, 'connected');
+
+    const socketId = socket.id;
+    const userId = socket.handshake.query.userId;
+    usersConnected.set(userId, socketId);
 
     socket.on('join', (group_id) => {
         console.log('Cliente unido al grupo: ', group_id);
@@ -72,8 +78,24 @@ io.on('connection', (socket) => {
         io.to(data.groupId).emit('message', data.message);
     });
 
+    socket.on('newNotification', (data) => {
+        const { userId, message } = data;
+    
+        const userSocketId = usersConnected.get(userId);
+    
+        if (userSocketId) {
+          io.to(userSocketId).emit('notification', message);
+        }
+    });
+
     socket.on('disconnect', async () => {
         await updateUserStatus(socket.handshake.query.userId, 'disconnected');
+        for (const [userId, socketId] of usersConnected.entries()) {
+            if (socketId === socket.id) {
+              usersConnected.delete(userId);
+              break;
+            }
+        }
         console.log('Cliente desconectado', socket.handshake.query.userId);
     });
 })
